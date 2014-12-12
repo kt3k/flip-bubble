@@ -1,4 +1,4 @@
-# speech-bubble v0.1.1
+# speech-bubble v0.1.2
 
 > speech bubble component for my game series, sort of silly library, but I believe it's somewhat reusable.
 
