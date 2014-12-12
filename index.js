@@ -10,7 +10,7 @@
     var defaultPartitionY = 3;
     var defaultDistance = 25;
 
-    function SpeechBubble($parent, $content, x, y, w, h, color, chipHeight, partitionX, partitionY, distance, cssClass) {
+    function SpeechBubble($parent, $content, x, y, w, h, color, chipHeight, partitionX, partitionY, distance, cssClass, duration) {
         this.$parent = $parent;
         this.$content = $content.css({position: 'absolute', opacity: 0});
         this.x = x;
@@ -23,6 +23,7 @@
         this.partitionY = partitionY || defaultPartitionY;
         this.distance = distance || defaultDistance;
         this.cssClass = cssClass || '';
+        this.duration = duration;
 
     }
 
@@ -55,6 +56,7 @@
 
         this.ip = this.$dom.infoPane(this.partitionX, this.partitionY, {
             bgcolor: this.color,
+            unitDur: this.duration / 2
         });
 
         return this.ip;
@@ -81,7 +83,7 @@
 
         var pos = this.position();
 
-        return new SpeechBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.cssClass);
+        return new SpeechBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.cssClass, opts.duration);
     };
 
 }(window.jQuery));
