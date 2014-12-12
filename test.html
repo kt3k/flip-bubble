@@ -1,0 +1,46 @@
+<style>
+
+body {
+    position: relative;
+}
+
+#char {
+    position: absolute;
+    left: 150;
+    top: 300;
+    width: 50px;
+    height: 50px;
+    background-color: hsla(0, 50%, 50%, 0.4);
+}
+
+</style>
+
+<script src="bower_components/info-pane/jquery.min.js"></script>
+<script src="bower_components/info-pane/index.js"></script>
+<script src="index.js"></script>
+
+<script>
+$(function () {
+    var chr = $('#char');
+    var sb = chr.speechBubble($('<p />').text('Hello, world!'));
+
+    var init = function () {
+        chr.one('click', function () {
+
+            sb.show().then(function (sb) {
+
+                chr.one('click', function () {
+
+                    sb.hide().then(init);
+
+                });
+
+            });
+        });
+    };
+
+    init();
+});
+</script>
+
+<div id="char"></div>
