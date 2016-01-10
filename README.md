@@ -1,4 +1,4 @@
-# flip-bubble v1.0.0
+# flip-bubble v1.1.0
 
 > Animating speech bubble component, appears and disappears flipping its sections.
 
