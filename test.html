@@ -22,24 +22,22 @@ body {
 <script>
 $(function () {
     var chr = $('#char');
-    var sb = chr.speechBubble($('<p />').text('Hello, world!'));
+    var sb = chr.flipBubble($('<p />').text('Hello, world!'));
 
-    var init = function () {
-        chr.one('click', function () {
+    chr.one('click', function () {
 
-            sb.show().then(function (sb) {
+        sb.show().then(function (sb) {
 
-                chr.one('click', function () {
+            chr.one('click', function () {
 
-                    sb.hide().then(init);
-
-                });
+                sb.hide().then(init);
 
             });
-        });
-    };
 
-    init();
+        });
+
+    });
+
 });
 </script>
 

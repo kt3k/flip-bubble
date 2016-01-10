@@ -86,4 +86,6 @@
         return new SpeechBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.cssClass, opts.duration);
     };
 
+    $.fn.flipBubble = $.fn.speechBubble;
+
 }(window.jQuery));

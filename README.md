@@ -4,7 +4,45 @@
 
 # Install
 
+via npm
+
     npm install flip-bubble
+
+via bower
+
+    bower install speech-bubble
+
+# Usage
+
+```html
+<script src="path/to/jquery.js"></script>
+<script src="path/to/patapata.js"></script>
+<script src="path/to/flip-bubble.js"></script>
+
+<script>
+$(function () {
+    var chr = $('#char');
+    var sb = chr.flipBubble($('<p />').text('Hello, world!'));
+
+    chr.one('click', function () {
+
+        sb.show().then(function (sb) {
+
+            chr.one('click', function () {
+
+                sb.hide().then(init);
+
+            });
+
+        });
+
+    });
+
+});
+</script>
+
+<div id="char">Click!</div>
+```
 
 ### dependencies
 
