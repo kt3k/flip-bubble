@@ -1,6 +1,6 @@
 {
   "name": "speech-bubble",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Animating speech bubble component, appears and disappears flipping its sections.",
   "main": "index.js",
   "scripts": {
