@@ -10,82 +10,91 @@
     var defaultPartitionY = 3;
     var defaultDistance = 25;
 
-    function SpeechBubble($parent, $content, x, y, w, h, color, chipHeight, partitionX, partitionY, distance, cssClass, duration) {
-        this.$parent = $parent;
-        this.$content = $content.css({position: 'absolute', opacity: 0});
-        this.x = x;
-        this.y = y;
-        this.w = w || defaultWidth;
-        this.h = h || defaultHeight;
-        this.color = color || defaultColor;
-        this.chipHeight = chipHeight || defaultChipHeight;
-        this.partitionX = partitionX || defaultPartitionX;
-        this.partitionY = partitionY || defaultPartitionY;
-        this.distance = distance || defaultDistance;
-        this.cssClass = cssClass || '';
-        this.duration = duration;
+    var SpeechBubble = $.cc.subclass(function (pt) {
 
-    }
+        pt.constructor = function ($parent, $content, x, y, w, h, color, chipHeight, partitionX, partitionY, distance, cssClass, duration) {
 
-    var sbPt = SpeechBubble.prototype;
+            this.$parent = $parent;
+            this.$content = $content.css({position: 'absolute', opacity: 0});
+            this.x = x;
+            this.y = y;
+            this.w = w || defaultWidth;
+            this.h = h || defaultHeight;
+            this.color = color || defaultColor;
+            this.chipHeight = chipHeight || defaultChipHeight;
+            this.partitionX = partitionX || defaultPartitionX;
+            this.partitionY = partitionY || defaultPartitionY;
+            this.distance = distance || defaultDistance;
+            this.cssClass = cssClass || '';
+            this.duration = duration;
 
-    sbPt.createInfoPane = function () {
-        this.$dom = $('<div />')
-            .css({
-                position: 'absolute',
-                left: (this.x - this.w / 2) + 'px',
-                top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
-            })
-            .addClass(this.cssClass)
-            .width(this.w).height(this.h).append(this.$content).appendTo(this.$parent);
+        }
 
-        this.$chip = $('<div />')
-            .css({
-                position: 'absolute',
-                bottom: '-' + this.chipHeight * 2 + 'px',
-                left: this.w / 2 - Math.floor(this.chipHeight / 1.5),
-                width: 0,
-                height: 0,
-                borderWidth: this.chipHeight + 'px ' + Math.floor(this.chipHeight / 1.5) + 'px',
-                borderColor: 'transparent',
-                borderStyle: 'solid',
-                borderTop: 'solid ' + this.chipHeight + 'px ' + this.color,
-                borderTopColor: this.color,
-                opacity: 0
-            }).appendTo(this.$dom);
+        pt.createInfoPane = function () {
+            this.$dom = $('<div />')
+                .css({
+                    position: 'absolute',
+                    left: (this.x - this.w / 2) + 'px',
+                    top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
+                })
+                .addClass(this.cssClass)
+                .width(this.w).height(this.h).append(this.$content).appendTo(this.$parent);
 
-        this.ip = this.$dom.infoPane(this.partitionX, this.partitionY, {
-            bgcolor: this.color,
-            unitDur: this.duration / 2
-        });
+            // The small chip under the bubble
+            this.$chip = $('<div />')
+                .css({
+                    position: 'absolute',
+                    bottom: '-' + this.chipHeight * 2 + 'px',
+                    left: this.w / 2 - Math.floor(this.chipHeight / 1.5),
+                    width: 0,
+                    height: 0,
+                    borderWidth: this.chipHeight + 'px ' + Math.floor(this.chipHeight / 1.5) + 'px',
+                    borderColor: 'transparent',
+                    borderStyle: 'solid',
+                    borderTop: 'solid ' + this.chipHeight + 'px ' + this.color,
+                    borderTopColor: this.color,
+                    opacity: 0
+                }).appendTo(this.$dom);
 
-        return this.ip;
-    };
+            this.ip = this.$dom.infoPane(this.partitionX, this.partitionY, {
+                bgcolor: this.color,
+                unitDur: this.duration / 2
+            });
 
-    sbPt.show = function () {
-        var that = this;
+            return this.ip;
+        };
 
-        return this.createInfoPane().show().then(function () {
-            return that;
-        });
-    };
+        pt.show = function () {
+            var that = this;
 
-    sbPt.hide = function () {
-        var that = this;
+            return this.createInfoPane().show().then(function () {
+                return that;
+            });
+        };
 
-        return this.ip.hide().then(function () {
-            that.$dom.remove();
-        });
-    };
+        pt.hide = function () {
+            var that = this;
 
+            return this.ip.hide().then(function () {
+                that.$dom.remove();
+            });
+        };
+
+    });
+
+    /**
+     *
+     */
     $.fn.speechBubble = function ($content, opts) {
+
         opts = opts || {};
 
         var pos = this.position();
 
         return new SpeechBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.cssClass, opts.duration);
+
     };
 
     $.fn.flipBubble = $.fn.speechBubble;
 
-}(window.jQuery));
+}(jQuery));
