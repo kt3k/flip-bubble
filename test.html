@@ -23,21 +23,27 @@ body {
 <script>
 $(function () {
     var chr = $('#char');
-    var sb = chr.flipBubble($('<p />').text('Hello, world!'));
+    var sb = chr.multiflipBubble($('<p />').text('Hello, world!'));
 
-    chr.one('click', function () {
+    var init = function () {
 
-        sb.show().then(function (sb) {
+        chr.one('click', function () {
 
-            chr.one('click', function () {
+            sb.show().then(function () {
 
-                sb.hide().then(init);
+                chr.one('click', function () {
+
+                    sb.hide().then(init);
+
+                });
 
             });
 
         });
 
-    });
+    };
+
+    init();
 
 });
 </script>

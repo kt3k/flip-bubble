@@ -1,5 +1,5 @@
 {
-  "name": "flip-bubble",
+  "name": "multiflip-bubble",
   "version": "1.1.0",
   "description": "Animating speech bubble component, appears and disappears flipping its sections.",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "keywords": [
     "dom",
-    "jqueryplugin",
+    "jquery-plugin",
     "speech",
     "bubble"
   ],

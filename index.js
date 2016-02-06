@@ -10,12 +10,12 @@
     var defaultPartitionY = 3;
     var defaultDistance = 25;
 
-    var SpeechBubble = $.cc.subclass(function (pt) {
+    var MultiflipBubble = $.cc.subclass(function (pt) {
 
         pt.constructor = function ($parent, $content, x, y, w, h, color, chipHeight, partitionX, partitionY, distance, cssClass, duration) {
 
             this.$parent = $parent;
-            this.$content = $content.css({position: 'absolute', opacity: 0});
+            this.$content = $content.css({position: 'absolute', opacity: 0}); // First hides the content
             this.x = x;
             this.y = y;
             this.w = w || defaultWidth;
@@ -85,16 +85,14 @@
     /**
      *
      */
-    $.fn.speechBubble = function ($content, opts) {
+    $.fn.multiflipBubble = function ($content, opts) {
 
         opts = opts || {};
 
         var pos = this.position();
 
-        return new SpeechBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.cssClass, opts.duration);
+        return new MultiflipBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.cssClass, opts.duration);
 
     };
-
-    $.fn.flipBubble = $.fn.speechBubble;
 
 }(jQuery));
