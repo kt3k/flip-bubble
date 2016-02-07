@@ -4,10 +4,25 @@
 
     var DEFAULT_WIDTH = 200
     var DEFAULT_HEIGHT = 100
-    var DEFAULT_COLOR = '#9BA3AB'
+    var DEFAULT_COLOR = '#115588'
     var DEFAULT_CHIP_HEIGHT = 12
     var DEFAULT_CHIP_DISTANCE = 15
 
+    /**
+     * MultiflipBubble is the component of the bubble which opens above the target element.
+     *
+     * @example
+     *     <div class="multiflip-bubble" m="10" n="5" width="200" height="100" color="#115588" chip-distance="12" chip-height="15">
+     *
+     * The attributes means:
+     * - attr {number} m The horizontal partition number
+     * - attr {number} n The vertical partition number
+     * - attr {number} width The width of the bubble
+     * - attr {number} height The height of the bubble
+     * - attr {string} color The color of the bubble
+     * - attr {number} chip-distance The distance between the bottom of the chip and the top of the bubble target (speaker)
+     * - attr {number} chip-height The height of the chip under the bubble
+     */
     var MultiflipBubble = $.cc.subclass($.cc.Coelement, function (pt, parent) {
 
         pt.constructor = function (elem) {
@@ -62,7 +77,7 @@
                 top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
             })
             .attr({
-                bgcolor: this.color,
+                bgcolor: this.color
             })
             .width(this.w)
             .height(this.h)
@@ -79,7 +94,7 @@
 
         pt.hide = function () {
 
-            return this.elem.cc.get('multiflip').hide();
+            return this.elem.cc.get('multiflip').hide()
 
         }
 
@@ -89,6 +104,14 @@
 
     /**
      * @param {jQuery} content The content
+     * @param {Object} opts The options
+     * @param {number} opts.m The horizontal partition number
+     * @param {number} opts.n The vertical partition number
+     * @param {number} opts.width The width of the bubble
+     * @param {number} opts.height The height of the bubble
+     * @param {number} opts.chipHeight The height of the chip under the bubble
+     * @param {number} opts.chipDistance The distance between the bottom of the chip and the top of the bubble target (speaker)
+     * @param {string} opts.color The color of the bubble
      */
     $.fn.multiflipBubble = function (content, opts) {
 
@@ -103,12 +126,12 @@
                 color: opts.color,
                 'chip-height': opts.chipHeight,
                 'chip-distance': opts.chipDistance
-           },
-           data: {target: this},
-           insertAfter: this,
-           append: content.css({opacity: 0, position: 'relative'})
+            },
+            data: {target: this},
+            insertAfter: this,
+            append: content.css({opacity: 0, position: 'relative'})
 
-       }).cc.init('multiflip-bubble')
+        }).cc.init('multiflip-bubble')
 
     }
 
