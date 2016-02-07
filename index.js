@@ -12,7 +12,7 @@
 
     var MultiflipBubble = $.cc.subclass(function (pt) {
 
-        pt.constructor = function ($parent, $content, x, y, w, h, color, chipHeight, partitionX, partitionY, distance, cssClass, duration) {
+        pt.constructor = function ($parent, $content, x, y, w, h, color, chipHeight, partitionX, partitionY, distance, duration) {
 
             this.$parent = $parent;
             this.$content = $content.css({position: 'absolute', opacity: 0}); // First hides the content
@@ -25,59 +25,73 @@
             this.partitionX = partitionX || defaultPartitionX;
             this.partitionY = partitionY || defaultPartitionY;
             this.distance = distance || defaultDistance;
-            this.cssClass = cssClass || '';
             this.duration = duration;
+
+            this.create()
 
         }
 
-        pt.createInfoPane = function () {
-            this.$dom = $('<div />')
+        pt.createChip = function () {
+
+            // The small chip under the bubble
+            return this.$chip = $('<div />').css({
+
+                position: 'absolute',
+                bottom: '-' + this.chipHeight * 2 + 'px',
+                left: this.w / 2 - Math.floor(this.chipHeight / 1.5),
+                width: 0,
+                height: 0,
+                borderWidth: this.chipHeight + 'px ' + Math.floor(this.chipHeight / 1.5) + 'px',
+                borderColor: 'transparent',
+                borderStyle: 'solid',
+                borderTop: 'solid ' + this.chipHeight + 'px ' + this.color,
+                borderTopColor: this.color,
+                opacity: 0
+
+            })
+
+        }
+
+        pt.create = function () {
+
+            this.elem = $('<div />')
                 .css({
                     position: 'absolute',
                     left: (this.x - this.w / 2) + 'px',
                     top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
                 })
-                .addClass(this.cssClass)
+                .attr({
+                    m: this.partitionX,
+                    n: this.partitionY,
+                    'unit-dur': this.duration / 2,
+                    bgcolor: this.color
+                })
                 .width(this.w).height(this.h).append(this.$content).appendTo(this.$parent);
 
-            // The small chip under the bubble
-            this.$chip = $('<div />')
-                .css({
-                    position: 'absolute',
-                    bottom: '-' + this.chipHeight * 2 + 'px',
-                    left: this.w / 2 - Math.floor(this.chipHeight / 1.5),
-                    width: 0,
-                    height: 0,
-                    borderWidth: this.chipHeight + 'px ' + Math.floor(this.chipHeight / 1.5) + 'px',
-                    borderColor: 'transparent',
-                    borderStyle: 'solid',
-                    borderTop: 'solid ' + this.chipHeight + 'px ' + this.color,
-                    borderTopColor: this.color,
-                    opacity: 0
-                }).appendTo(this.$dom);
+            this.elem.cc.init('multiflip')
 
-            this.ip = this.$dom.infoPane(this.partitionX, this.partitionY, {
-                bgcolor: this.color,
-                unitDur: this.duration / 2
-            });
+            this.createChip().appendTo(this.elem)
 
-            return this.ip;
         };
 
         pt.show = function () {
-            var that = this;
 
-            return this.createInfoPane().show().then(function () {
-                return that;
-            });
+            this.create()
+
+            return this.elem.cc.get('multiflip').show()
+
         };
 
         pt.hide = function () {
+
             var that = this;
 
-            return this.ip.hide().then(function () {
-                that.$dom.remove();
+            return this.elem.cc.get('multiflip').hide().then(function () {
+
+                that.elem.remove();
+
             });
+
         };
 
     });
@@ -91,7 +105,7 @@
 
         var pos = this.position();
 
-        return new MultiflipBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.cssClass, opts.duration);
+        return new MultiflipBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.duration);
 
     };
 

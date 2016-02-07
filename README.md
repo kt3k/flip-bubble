@@ -1,16 +1,14 @@
-# flip-bubble v1.1.0
+# multiflip-bubble v1.1.0
 
 > Animating speech bubble component, appears and disappears flipping its sections.
+
+***NOTE***: This library depends on jquery, class-component and [multiflip](https://github.com/kt3k/multiflip)
 
 # Install
 
 via npm
 
-    npm install flip-bubble
-
-via bower
-
-    bower install speech-bubble
+    npm install multiflip-bubble
 
 # Usage
 
@@ -43,11 +41,5 @@ $(function () {
 
 <div id="char">Click!</div>
 ```
-
-### dependencies
-
-- jquery
-- es6-promise
-- patapata
 
 ### [demo](http://kt3k.github.io/speech-bubble/test.html) (chrome)
