@@ -1,40 +1,42 @@
 
 (function ($) {
-    'use strict';
+    'use strict'
 
-    var defaultWidth = 200;
-    var defaultHeight = 100;
-    var defaultColor = '#9BA3AB';
-    var defaultChipHeight = 12;
-    var defaultPartitionX = 5;
-    var defaultPartitionY = 3;
-    var defaultDistance = 25;
+    var DEFAULT_WIDTH = 200
+    var DEFAULT_HEIGHT = 100
+    var DEFAULT_COLOR = '#9BA3AB'
+    var DEFAULT_CHIP_HEIGHT = 12
+    var DEFAULT_CHIP_DISTANCE = 15
 
-    var MultiflipBubble = $.cc.subclass(function (pt) {
+    var MultiflipBubble = $.cc.subclass($.cc.Coelement, function (pt, parent) {
 
-        pt.constructor = function ($parent, $content, x, y, w, h, color, chipHeight, partitionX, partitionY, distance, duration) {
+        pt.constructor = function (elem) {
 
-            this.$parent = $parent;
-            this.$content = $content.css({position: 'absolute', opacity: 0}); // First hides the content
-            this.x = x;
-            this.y = y;
-            this.w = w || defaultWidth;
-            this.h = h || defaultHeight;
-            this.color = color || defaultColor;
-            this.chipHeight = chipHeight || defaultChipHeight;
-            this.partitionX = partitionX || defaultPartitionX;
-            this.partitionY = partitionY || defaultPartitionY;
-            this.distance = distance || defaultDistance;
-            this.duration = duration;
+            parent.constructor.call(this, elem)
 
-            this.create()
+            var target = this.target = this.elem.data('target')
+
+            this.$parent = this.elem.parent()
+
+            this.x = target.position().left + target.width() / 2
+            this.y = target.position().top
+
+            this.w = +this.elem.attr('width') || DEFAULT_WIDTH // component parameter
+            this.h = +this.elem.attr('height') || DEFAULT_HEIGHT // component parameter
+
+            this.color = this.elem.attr('color') || DEFAULT_COLOR // component parameter
+
+            this.chipHeight = this.elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT // component paramter
+            this.distance = this.elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE // component parameter
+
+            this.init()
 
         }
 
         pt.createChip = function () {
 
             // The small chip under the bubble
-            return this.$chip = $('<div />').css({
+            return $('<div />').css({
 
                 position: 'absolute',
                 bottom: '-' + this.chipHeight * 2 + 'px',
@@ -52,61 +54,62 @@
 
         }
 
-        pt.create = function () {
+        pt.init = function () {
 
-            this.elem = $('<div />')
-                .css({
-                    position: 'absolute',
-                    left: (this.x - this.w / 2) + 'px',
-                    top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
-                })
-                .attr({
-                    m: this.partitionX,
-                    n: this.partitionY,
-                    'unit-dur': this.duration / 2,
-                    bgcolor: this.color
-                })
-                .width(this.w).height(this.h).append(this.$content).appendTo(this.$parent);
+            this.elem.css({
+                position: 'absolute',
+                left: (this.x - this.w / 2) + 'px',
+                top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
+            })
+            .attr({
+                bgcolor: this.color,
+            })
+            .width(this.w)
+            .height(this.h)
+            .append(this.createChip())
+            .cc.init('multiflip')
 
-            this.elem.cc.init('multiflip')
-
-            this.createChip().appendTo(this.elem)
-
-        };
+        }
 
         pt.show = function () {
 
-            this.create()
-
             return this.elem.cc.get('multiflip').show()
 
-        };
+        }
 
         pt.hide = function () {
 
-            var that = this;
+            return this.elem.cc.get('multiflip').hide();
 
-            return this.elem.cc.get('multiflip').hide().then(function () {
+        }
 
-                that.elem.remove();
+    })
 
-            });
-
-        };
-
-    });
+    $.cc.component('multiflip-bubble')(MultiflipBubble)
 
     /**
-     *
+     * @param {jQuery} content The content
      */
-    $.fn.multiflipBubble = function ($content, opts) {
+    $.fn.multiflipBubble = function (content, opts) {
 
-        opts = opts || {};
+        opts = opts || {}
 
-        var pos = this.position();
+        return $('<div />', {
+            attr: {
+                m: opts.m,
+                n: opts.n,
+                width: opts.width,
+                height: opts.height,
+                color: opts.color,
+                'chip-height': opts.chipHeight,
+                'chip-distance': opts.chipDistance
+           },
+           data: {target: this},
+           insertAfter: this,
+           append: content.css({opacity: 0, position: 'relative'})
 
-        return new MultiflipBubble(this.parent(), $content, pos.left + this.width() / 2, pos.top, opts.width, opts.height, opts.color, opts.chipHeight, opts.partitionX, opts.partitionY, opts.distance, opts.duration);
+       }).cc.init('multiflip-bubble')
 
-    };
+    }
 
-}(jQuery));
+}(jQuery))
