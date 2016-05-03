@@ -14,13 +14,13 @@ via npm
 
 ```html
 <script src="path/to/jquery.js"></script>
-<script src="path/to/patapata.js"></script>
-<script src="path/to/flip-bubble.js"></script>
+<script src="path/to/multiflip.js"></script>
+<script src="path/to/multiflip-bubble.js"></script>
 
 <script>
 $(function () {
     var chr = $('#char');
-    var sb = chr.flipBubble($('<p />').text('Hello, world!'));
+    var sb = chr.multiflipBubble($('<p />').text('Hello, world!'));
 
     chr.one('click', function () {
 
