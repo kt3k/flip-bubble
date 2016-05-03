@@ -42,4 +42,4 @@ $(function () {
 <div id="char">Click!</div>
 ```
 
-### [demo](http://kt3k.github.io/speech-bubble/test.html) (chrome)
+### [demo](http://kt3k.github.io/multiflip-bubble/test.html) (chrome)
