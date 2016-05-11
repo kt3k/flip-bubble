@@ -23,11 +23,11 @@
      * - attr {number} chip-distance The distance between the bottom of the chip and the top of the bubble target (speaker)
      * - attr {number} chip-height The height of the chip under the bubble
      */
-    var MultiflipBubble = $.cc.subclass($.cc.Coelement, function (pt, parent) {
+    class MultiflipBubble extends $.cc.Coelement {
 
-        pt.constructor = function (elem) {
+        constructor(elem) {
 
-            parent.constructor.call(this, elem)
+            super(elem)
 
             var target = this.target = this.elem.data('target')
 
@@ -48,7 +48,7 @@
 
         }
 
-        pt.createChip = function () {
+        createChip() {
 
             // The small chip under the bubble
             return $('<div />').css({
@@ -69,7 +69,7 @@
 
         }
 
-        pt.init = function () {
+        init() {
 
             this.elem.css({
                 position: 'absolute',
@@ -86,19 +86,19 @@
 
         }
 
-        pt.show = function () {
+        show() {
 
             return this.elem.cc.get('multiflip').show()
 
         }
 
-        pt.hide = function () {
+        hide() {
 
             return this.elem.cc.get('multiflip').hide()
 
         }
 
-    })
+    }
 
     $.cc.component('multiflip-bubble')(MultiflipBubble)
 
