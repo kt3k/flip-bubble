@@ -1,4 +1,4 @@
-# multiflip-bubble v2.0.0
+# multiflip-bubble v3.0.0
 
 > Animating speech bubble component, appears and disappears flipping its sections.
 
