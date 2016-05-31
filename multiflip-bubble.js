@@ -4,10 +4,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 (function ($) {
     'use strict';
 
@@ -33,32 +29,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
      * - attr {number} chip-height The height of the chip under the bubble
      */
 
-    var MultiflipBubble = function (_$$cc$Coelement) {
-        _inherits(MultiflipBubble, _$$cc$Coelement);
-
+    var MultiflipBubble = function () {
         function MultiflipBubble(elem) {
             _classCallCheck(this, MultiflipBubble);
 
-            var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MultiflipBubble).call(this, elem));
+            var target = this.target = elem.data('target');
 
-            var target = _this.target = _this.elem.data('target');
+            this.$parent = elem.parent();
 
-            _this.$parent = _this.elem.parent();
+            this.x = target.position().left + target.width() / 2;
+            this.y = target.position().top;
 
-            _this.x = target.position().left + target.width() / 2;
-            _this.y = target.position().top;
+            this.w = +elem.attr('width') || DEFAULT_WIDTH; // component parameter
+            this.h = +elem.attr('height') || DEFAULT_HEIGHT; // component parameter
 
-            _this.w = +_this.elem.attr('width') || DEFAULT_WIDTH; // component parameter
-            _this.h = +_this.elem.attr('height') || DEFAULT_HEIGHT; // component parameter
+            this.color = elem.attr('color') || DEFAULT_COLOR; // component parameter
 
-            _this.color = _this.elem.attr('color') || DEFAULT_COLOR; // component parameter
+            this.chipHeight = elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT; // component paramter
+            this.distance = elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE; // component parameter
 
-            _this.chipHeight = _this.elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT; // component paramter
-            _this.distance = _this.elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE; // component parameter
-
-            _this.init();
-
-            return _this;
+            this.init(elem);
         }
 
         _createClass(MultiflipBubble, [{
@@ -84,15 +74,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
             }
         }, {
             key: 'init',
-            value: function init() {
+            value: function init(elem) {
 
-                this.elem.css({
+                elem.css({
                     position: 'absolute',
                     left: this.x - this.w / 2 + 'px',
                     top: this.y - this.h - this.chipHeight - this.distance + 'px'
                 }).attr({
                     bgcolor: this.color
-                }).width(this.w).height(this.h).append(this.createChip()).cc.init('multiflip');
+                }).width(this.w).height(this.h).append(this.createChip()).cc('multiflip');
             }
         }, {
             key: 'show',
@@ -109,9 +99,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
         }]);
 
         return MultiflipBubble;
-    }($.cc.Coelement);
+    }();
 
-    $.cc.component('multiflip-bubble')(MultiflipBubble);
+    $.cc('multiflip-bubble', MultiflipBubble);
 
     /**
      * @param {jQuery} content The content

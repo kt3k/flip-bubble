@@ -23,28 +23,26 @@
      * - attr {number} chip-distance The distance between the bottom of the chip and the top of the bubble target (speaker)
      * - attr {number} chip-height The height of the chip under the bubble
      */
-    class MultiflipBubble extends $.cc.Coelement {
+    class MultiflipBubble {
 
         constructor(elem) {
 
-            super(elem)
+            var target = this.target = elem.data('target')
 
-            var target = this.target = this.elem.data('target')
-
-            this.$parent = this.elem.parent()
+            this.$parent = elem.parent()
 
             this.x = target.position().left + target.width() / 2
             this.y = target.position().top
 
-            this.w = +this.elem.attr('width') || DEFAULT_WIDTH // component parameter
-            this.h = +this.elem.attr('height') || DEFAULT_HEIGHT // component parameter
+            this.w = +elem.attr('width') || DEFAULT_WIDTH // component parameter
+            this.h = +elem.attr('height') || DEFAULT_HEIGHT // component parameter
 
-            this.color = this.elem.attr('color') || DEFAULT_COLOR // component parameter
+            this.color = elem.attr('color') || DEFAULT_COLOR // component parameter
 
-            this.chipHeight = this.elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT // component paramter
-            this.distance = this.elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE // component parameter
+            this.chipHeight = elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT // component paramter
+            this.distance = elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE // component parameter
 
-            this.init()
+            this.init(elem)
 
         }
 
@@ -69,9 +67,9 @@
 
         }
 
-        init() {
+        init(elem) {
 
-            this.elem.css({
+            elem.css({
                 position: 'absolute',
                 left: (this.x - this.w / 2) + 'px',
                 top: (this.y - this.h - this.chipHeight - this.distance) + 'px'
@@ -82,7 +80,7 @@
             .width(this.w)
             .height(this.h)
             .append(this.createChip())
-            .cc.init('multiflip')
+            .cc('multiflip')
 
         }
 
@@ -100,7 +98,7 @@
 
     }
 
-    $.cc.component('multiflip-bubble')(MultiflipBubble)
+    $.cc('multiflip-bubble', MultiflipBubble)
 
     /**
      * @param {jQuery} content The content
