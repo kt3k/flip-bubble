@@ -1,6 +1,6 @@
 {
   "name": "multiflip-bubble",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Animating speech bubble component, appears and disappears flipping its sections.",
   "main": "multiflip-bubble.js",
   "scripts": {
