@@ -4,7 +4,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-(function ($) {
+(function ($, capsid) {
     'use strict';
 
     var DEFAULT_WIDTH = 200;
@@ -30,28 +30,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      */
 
     var MultiflipBubble = function () {
-        function MultiflipBubble(elem) {
+        function MultiflipBubble() {
             _classCallCheck(this, MultiflipBubble);
-
-            var target = this.target = elem.data('target');
-
-            this.$parent = elem.parent();
-
-            this.x = target.position().left + target.width() / 2;
-            this.y = target.position().top;
-
-            this.w = +elem.attr('width') || DEFAULT_WIDTH; // component parameter
-            this.h = +elem.attr('height') || DEFAULT_HEIGHT; // component parameter
-
-            this.color = elem.attr('color') || DEFAULT_COLOR; // component parameter
-
-            this.chipHeight = elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT; // component paramter
-            this.distance = elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE; // component parameter
-
-            this.init(elem);
         }
 
         _createClass(MultiflipBubble, [{
+            key: '__init__',
+            value: function __init__() {
+                var elem = this.$el;
+                var target = this.target = elem.data('target');
+
+                this.$parent = elem.parent();
+
+                this.x = target.position().left + target.width() / 2;
+                this.y = target.position().top;
+
+                this.w = +elem.attr('width') || DEFAULT_WIDTH; // component parameter
+                this.h = +elem.attr('height') || DEFAULT_HEIGHT; // component parameter
+
+                this.color = elem.attr('color') || DEFAULT_COLOR; // component parameter
+
+                this.chipHeight = elem.attr('chip-height') || DEFAULT_CHIP_HEIGHT; // component paramter
+                this.distance = elem.attr('chip-distance') || DEFAULT_CHIP_DISTANCE; // component parameter
+
+                this.init(elem);
+            }
+        }, {
             key: 'createChip',
             value: function createChip() {
 
@@ -101,7 +105,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return MultiflipBubble;
     }();
 
-    $.cc('multiflip-bubble', MultiflipBubble);
+    capsid.def('multiflip-bubble', MultiflipBubble);
 
     /**
      * @param {jQuery} content The content
@@ -118,7 +122,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         opts = opts || {};
 
-        return $('<div />', {
+        return capsid.make('multiflip-bubble', $('<div />', {
             attr: {
                 m: opts.m,
                 n: opts.n,
@@ -132,7 +136,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             insertAfter: this,
             append: content.css({ opacity: 0, position: 'relative' })
 
-        }).cc.init('multiflip-bubble');
+        })[0]);
     };
-})(jQuery);
+})(jQuery, capsid);
 

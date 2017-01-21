@@ -1,5 +1,5 @@
 
-(function ($) {
+(function ($, capsid) {
     'use strict'
 
     var DEFAULT_WIDTH = 200
@@ -25,8 +25,8 @@
      */
     class MultiflipBubble {
 
-        constructor(elem) {
-
+        __init__ () {
+            var elem = this.$el
             var target = this.target = elem.data('target')
 
             this.$parent = elem.parent()
@@ -98,7 +98,7 @@
 
     }
 
-    $.cc('multiflip-bubble', MultiflipBubble)
+    capsid.def('multiflip-bubble', MultiflipBubble)
 
     /**
      * @param {jQuery} content The content
@@ -115,7 +115,7 @@
 
         opts = opts || {}
 
-        return $('<div />', {
+        return capsid.make('multiflip-bubble', $('<div />', {
             attr: {
                 m: opts.m,
                 n: opts.n,
@@ -129,8 +129,8 @@
             insertAfter: this,
             append: content.css({opacity: 0, position: 'relative'})
 
-        }).cc.init('multiflip-bubble')
+        })[0])
 
     }
 
-}(jQuery))
+}(jQuery, capsid))
