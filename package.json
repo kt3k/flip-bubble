@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/kt3k/speech-bubble#readme",
   "peerDependencies": {
-    "capsid": ">=0.3.0",
+    "capsid": ">=0.8.0",
     "jquery": ">=2.0.0",
     "multiflip": ">=4.0.0"
   },
